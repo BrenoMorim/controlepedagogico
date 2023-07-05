@@ -101,10 +101,10 @@ Recebe o nome, idioma, faixa etária e nível de um livro para assim cadastrar u
 
 ```yaml
 {
-	"nome": "E6",
-	"nivel": "AVANCADO",
-	"faixaEtaria": "ADULTS",
-	"idioma": "ESPANHOL"
+  "nome": "E6",
+  "nivel": "AVANCADO",
+  "faixaEtaria": "ADULTS",
+  "idioma": "ESPANHOL"
 }
 ``` 
 
@@ -116,10 +116,10 @@ Dado o nome de um livro, retorna todas as suas informações.
 
 ```yaml
 {
-	"nome": "W2",
-	"idioma": "INGLES",
-	"nivel": "BASICO",
-	"faixaEtaria": "ADULTS"
+  "nome": "W2",
+  "idioma": "INGLES",
+  "nivel": "BASICO",
+  "faixaEtaria": "ADULTS"
 }
 ```
 
@@ -135,23 +135,23 @@ Retorna uma lista paginada com os professores, ordenados pelo nome em ordem alfa
 
 ```yaml
 {
-	"content": [
-          {
-            "id": 1,
-            "nome": "Breno Morim",
-            "telefone": "11 91234-5678",
-            "idioma": "INGLES"
-          },
-          {
-            "id": 2,
-            "nome": "Joãozinho",
-            "telefone": "+55 11 91234-5679",
-            "idioma": "ESPANHOL"
-          }
-	],
-	"pageable": {
-      ...
+  "content": [
+    {
+      "id": 1,
+      "nome": "Breno Morim",
+      "telefone": "11 91234-5678",
+      "idioma": "INGLES"
+    },
+    {
+      "id": 2,
+      "nome": "Joãozinho",
+      "telefone": "+55 11 91234-5679",
+      "idioma": "ESPANHOL"
     }
+  ],
+  "pageable": {
+    ...
+  }
 }
 ``` 
 
@@ -163,14 +163,14 @@ Busca avançada que retorna os dados detalhados de um professor, recebe telefone
 
 ```yaml
 {
-	"id": 1,
-	"nome": "Breno Morim",
-	"cpf": "12345678910",
-	"email": "brenomorim@email.com",
-	"telefone": "11 91234-5678",
-	"dataAdmissao": "2023-07-05",
-	"idioma": "INGLES",
-	"cargo": "INSTRUTOR_AUXILIAR_II"
+  "id": 1,
+  "nome": "Breno Morim",
+  "cpf": "12345678910",
+  "email": "brenomorim@email.com",
+  "telefone": "11 91234-5678",
+  "dataAdmissao": "2023-07-05",
+  "idioma": "INGLES",
+  "cargo": "INSTRUTOR_AUXILIAR_II"
 }
 ``` 
 
@@ -186,12 +186,13 @@ Cadastra um novo professor no banco de dados, devem ser fornecidos os dados: nom
 
 ```yaml
 {
-	"nome": "Breno Morim",
-	"email": "breno@email.com",
-	"telefone": "11 91234-5678",
-	"cpf": "12345678911",
-	"idioma": "INGLES",
-	"cargo": "INSTRUTOR_AUXILIAR_II"
+  "nome": "Breno Morim",
+  "email": "breno@email.com",
+  "telefone": "11 91234-5678",
+  "cpf": "12345678911",
+  "idioma": "INGLES",
+  "cargo": "INSTRUTOR_AUXILIAR_II",
+  "dataAdmissao": "2023-07-05"
 }
 ```
 
@@ -203,10 +204,10 @@ Atualiza o cadastro do professor, podem ser fornecidos os campos: email, telefon
 
 ```yaml
 {
-	"email": "brenomorim@email.com",
-	"telefone": "+55 11 91234-5678",
-	"idioma": "ESPANHOL",
-	"cargo": "INSTRUTOR_I"
+  "email": "brenomorim@email.com",
+  "telefone": "+55 11 91234-5678",
+  "idioma": "ESPANHOL",
+  "cargo": "INSTRUTOR_I"
 }
 ```
 

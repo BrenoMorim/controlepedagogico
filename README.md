@@ -296,4 +296,130 @@ Altera algumas informações do aluno, os dados que podem ser alterados são: em
 
 Deleta aluno do banco de dados pelo id.
 
+### GET /aulas
+
+Busca paginada pelas aulas, aceita filtros como parâmetros de URL, podem ser passados: nome do livro, status, id do aluno e id do professor.
+
+> Exemplo: /aulas?status=DADA&aluno_id=1&livro=W2&professor_id=2
+
+```yaml
+{
+	"content": [
+    {
+      "id": 3,
+      "aluno": "Felipe",
+      "professor": "Larissa",
+      "livro": "W2",
+      "licao": "13",
+      "data": "2023-07-02T10:00:00",
+      "statusAula": "DADA",
+      "fala": "OTIMO",
+      "audicao": "MUITO_BOM",
+      "leitura": "OTIMO",
+      "escrita": "OTIMO"
+    },
+    {
+      "id": 2,
+      "aluno": "Felipe",
+      "professor": "Larissa",
+      "livro": "W2",
+      "licao": "12",
+      "data": "2023-06-30T10:00:00",
+      "statusAula": "DADA",
+      "fala": "OTIMO",
+      "audicao": "MUITO_BOM",
+      "leitura": "OTIMO",
+      "escrita": "OTIMO"
+    }
+	],
+	"pageable": {
+    ...
+  }
+}
+```
+
+### GET /aulas/filtro_data
+
+Busca de aulas que estejam dentro de um intervalo de tempo específico, a data inicial e a data final devem ser passadas no formato de LocalDateTime. Também aceita o id do professor e/ou do aluno como parâmetro, sendo opcionais.
+
+> Exemplo: /aulas/filtro_data?data_inicial=2023-06-01T09:00&data_final=2023-06-30T10:00
+
+O retorno deste endpoint é idêntico ao anterior.
+
+### GET /aulas/{id}
+
+Busca de aulas por id, retorna as informações detalhadas da aula, e as informações resumidas do professor e do aluno.
+
+> Exemplo: /aulas/2
+ 
+```yaml
+{
+	"id": 2,
+	"aluno": {
+		"id": 1,
+		"nome": "Felipe",
+		"telefone": "11 91234-5678",
+		"status": "ATIVO"
+	},
+	"professor": {
+		"id": 2,
+		"nome": "Larissa",
+		"telefone": "11 91234-5678",
+		"idioma": "INGLES"
+	},
+	"livro": {
+		"nome": "W2",
+		"nivel": "BASICO"
+	},
+	"licao": "12",
+	"data": "2023-06-30T10:00:00",
+	"observacao": null,
+	"statusAula": "DADA",
+	"fala": "OTIMO",
+	"audicao": "MUITO_BOM",
+	"leitura": "OTIMO",
+	"escrita": null
+}
+```
+
+### POST /aulas
+
+Lança as informações de uma aula, tem como parâmetros obrigatórios o id do aluno, id do professor, nome do livro, lição que foi ou era para ser dada e a data com horário. Os parâmetros opcionais são: observação, status, fala, audição, leitura e escrita. O status padrão é aula DADA.
+
+> Exemplo de corpo de requisição:
+
+```yaml
+{
+	"aluno": 1,
+	"professor": 2,
+	"livro": "W2",
+	"licao": "16",
+	"status": "DADA",
+	"data": "2023-07-06T10:00",
+	"fala": "REGULAR",
+	"audicao": "MUITO_BOM",
+	"leitura": "BOM"
+}
+```
+
+### PUT /aulas/{id}
+
+Rota para alterar as informações de uma aula, os parâmetros que podem ser passados são: lição realizada, observação, status da aula, data da aula e as notas (fala, audição, leitura e escrita).
+
+> Exemplo: /aulas/2
+
+```yaml
+{
+  "data": "2023-06-30T10:00:00",
+	"licao": "Review 2",
+	"statusAula": "DADA",
+	"escrita": "REGULAR",
+	"observacao": "Aluno teve dificuldades na hora de realizar a lição de casa"
+}
+```
+
+### DELETE /aulas/{id}
+
+Deleta uma aula do sistema através do id, retornando 204 em caso de sucesso.
+
 ---

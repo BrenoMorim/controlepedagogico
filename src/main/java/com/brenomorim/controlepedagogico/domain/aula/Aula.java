@@ -43,4 +43,15 @@ public class Aula {
     @Enumerated(EnumType.STRING)
     private Conceito escrita;
 
+    public void atualizar(DadosAtualizacaoAula dados) {
+        if (dados.licao() != null) this.licao = dados.licao();
+        if (dados.observacao() != null) this.observacao = dados.observacao();
+        if (dados.status() != null) this.status = dados.status();
+        if (dados.data() != null) this.data = dados.data();
+        if (dados.fala() != null) this.fala = dados.fala();
+        if (dados.audicao() != null) this.audicao = dados.audicao();
+        if (dados.leitura() != null) this.leitura = dados.leitura();
+        if (dados.escrita() != null) this.escrita = dados.escrita();
+    }
+
 }

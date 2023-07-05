@@ -4,9 +4,13 @@ import com.brenomorim.controlepedagogico.domain.Idioma;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
 
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
 
-    Professor findProfessorByNomeOrEmailOrTelefone(String nome, String email, String telefone);
+    @Query(value = "SELECT p.* FROM professores p WHERE p.nome LIKE :nome OR p.email LIKE :email OR p.telefone LIKE :telefone ORDER BY p.data_admissao DESC LIMIT 1", nativeQuery = true)
+    Optional<Professor> buscaAvancada(String nome, String email, String telefone);
     Page<Professor> findAllByIdioma(Pageable paginacao, Idioma idioma);
 }

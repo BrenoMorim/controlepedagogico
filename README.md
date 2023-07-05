@@ -2,6 +2,10 @@
 
 Projeto de sistema para gestão pedagógica, com suporte a CRUD de alunos, professores, aulas, livros e turmas.
 
+## Detalhes
+
+O projeto busca gerir as informações pedagógicas de alunos seguindo o padrão da Wizard, visto que atuo como professor nessa empresa. A aplicação segue o padrão REST com autenticação via token JWT, usando Java e Spring Boot como plataforma e MySQL como database, além de usar H2 como banco de dados para testes, executados via JUnit. A arquitetura da aplicação é dividida em: controller - controladores e comunicação HTTP, domain - regras de negócio e abstrações, e infra - configurações e segurança. 
+
 ## Enums usados
 
 Faixa etária:
@@ -76,3 +80,5 @@ Dado o nome de um livro, retorna suas informações.
 ### DELETE /livros/{nome}
 
 Deleta o livro pelo nome
+
+---

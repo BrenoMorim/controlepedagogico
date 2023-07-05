@@ -27,4 +27,18 @@ public class Professor {
     @Enumerated(EnumType.STRING)
     private CargoProfessor cargo;
 
+    public void atualizar(DadosAtualizacaoProfessor dados) {
+        if (dados.email() != null || dados.telefone() != null) {
+            var novoEmail = dados.email() == null ? dadosPessoais.getEmail() : dados.email();
+            var novoTelefone = dados.telefone() == null ? dadosPessoais.getTelefone() : dados.telefone();
+            this.dadosPessoais = new DadosPessoais(dadosPessoais.getNome(), dadosPessoais.getCpf(), novoEmail, novoTelefone);
+        }
+        if (dados.cargo() != null) {
+            this.cargo = dados.cargo();
+        }
+        if (dados.idioma() != null) {
+            this.idioma = dados.idioma();
+        }
+    }
+
 }

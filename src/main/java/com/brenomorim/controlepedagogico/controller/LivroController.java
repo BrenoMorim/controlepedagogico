@@ -24,7 +24,6 @@ public class LivroController {
     private LivroRepository livroRepository;
 
     @GetMapping
-    @PreAuthorize("")
     public ResponseEntity<Page<DadosListagemLivro>> listar(@PageableDefault(size=10, sort={"nome"}) Pageable paginacao,
                                                            @RequestParam(required = false, name = "idioma") Idioma idioma) {
         Page<DadosListagemLivro> livros;

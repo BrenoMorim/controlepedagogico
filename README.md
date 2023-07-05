@@ -125,7 +125,7 @@ Dado o nome de um livro, retorna todas as suas informações.
 
 ### DELETE /livros/{nome}
 
-Deleta o livro pelo nome.
+Deleta o livro pelo nome. Retorna 204 em caso de sucesso.
 
 ### GET /professores
 
@@ -214,5 +214,86 @@ Atualiza o cadastro do professor, podem ser fornecidos os campos: email, telefon
 ### DELETE /professores/{id}
 
 Deleta o registro do professor pelo id. Retorna 204 em caso de sucesso.
+
+### GET /alunos
+
+Retorna lista paginada de alunos, os seguintes parâmetros podem ser passados na URL: nome, status, faixa etária e nível.
+
+> Exemplo: /alunos?status=ATIVO&nivel=AVANCADO
+
+```yaml
+{
+	"content": [
+		{
+			"id": 2,
+			"nome": "Larissa",
+			"telefone": "11 91234-5678",
+			"status": "ATIVO"
+		},
+		{
+			"id": 3,
+			"nome": "Breno",
+			"telefone": "11 91234-5678",
+			"status": "ATIVO"
+		}
+	],
+	"pageable": {
+    ...
+  }
+}
+```
+
+### GET /alunos/{id}
+
+Retorna os detalhes de um aluno específico, o retorno dos dados segue o seguinte formato:
+
+> Exemplo /alunos/3
+ 
+```yaml
+{
+	"nome": "Breno",
+	"telefone": "11 91234-5678",
+	"email": "breno@email.com",
+	"cpf": "12345678910",
+	"dataNascimento": "2004-02-13",
+	"observacoes": null,
+	"statusAluno": "ATIVO",
+	"faixaEtaria": "ADULTS",
+	"nivel": "AVANCADO"
+}
+```
+
+### POST /alunos
+
+Cadastra um novo aluno, precisa dos seguintes dados: nome, email, telefone, cpf, data de nascimento e faixa etária. As informações de observações e nível são opcionais, o nível padrão é básico e o status do aluno começa como ativo.
+
+> Exemplo de corpo da requisição:
+ 
+```yaml
+{
+	"nome": "Maria",
+	"telefone": "11 91234-5678",
+	"email": "maria@email.com",
+	"cpf": "12345678910",
+	"dataNascimento": "1997-03-14",
+	"faixaEtaria": "ADULTS",
+	"nivel": "INTERMEDIARIO"
+}
+```
+
+### PUT /alunos/{id}
+
+Altera algumas informações do aluno, os dados que podem ser alterados são: email, telefone, faixa etária, nível, status e observações.
+
+```yaml
+{
+	"statusAluno": "CURSO_TRANCADO",
+	"observacoes": "Trancou o curso por falta de interesse"
+}
+```
+
+### DELETE /alunos/{id}
+
+Deleta aluno do banco de dados pelo id.
 
 ---

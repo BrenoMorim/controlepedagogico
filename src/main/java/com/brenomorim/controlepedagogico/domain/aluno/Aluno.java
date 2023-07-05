@@ -30,4 +30,16 @@ public class Aluno {
     private FaixaEtaria faixaEtaria;
     @Enumerated(EnumType.STRING)
     private Nivel nivel;
+
+    public void atualizar(DadosAtualizacaoAluno dados) {
+        if (dados.email() != null || dados.telefone() != null) {
+            var novoEmail = dados.email() == null ? dadosPessoais.getEmail() : dados.email();
+            var novoTelefone = dados.telefone() == null ? dadosPessoais.getTelefone() : dados.telefone();
+            this.dadosPessoais = new DadosPessoais(dadosPessoais.getNome(), dadosPessoais.getCpf(), novoEmail, novoTelefone);
+        }
+        if (dados.observacoes() != null) this.observacoes = dados.observacoes();
+        if (dados.nivel() != null) this.nivel = dados.nivel();
+        if (dados.statusAluno() != null) this.statusAluno = dados.statusAluno();
+        if (dados.faixaEtaria() != null) this.faixaEtaria = dados.faixaEtaria();
+    }
 }

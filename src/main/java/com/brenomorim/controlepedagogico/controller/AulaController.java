@@ -3,13 +3,12 @@ package com.brenomorim.controlepedagogico.controller;
 import com.brenomorim.controlepedagogico.domain.aluno.Aluno;
 import com.brenomorim.controlepedagogico.domain.aluno.AlunoRepository;
 import com.brenomorim.controlepedagogico.domain.aula.*;
+import com.brenomorim.controlepedagogico.domain.aula.validacao.ValidacaoAula;
 import com.brenomorim.controlepedagogico.domain.livro.Livro;
 import com.brenomorim.controlepedagogico.domain.livro.LivroRepository;
 import com.brenomorim.controlepedagogico.domain.professor.Professor;
 import com.brenomorim.controlepedagogico.domain.professor.ProfessorRepository;
-import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -23,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("aulas")
@@ -36,6 +36,8 @@ public class AulaController {
     private AlunoRepository alunoRepository;
     @Autowired
     private LivroRepository livroRepository;
+    @Autowired
+    private List<ValidacaoAula> validacoes;
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemAula>> listar(@PageableDefault(size = 15, sort={"data"}, direction = Sort.Direction.DESC) Pageable paginacao,
@@ -84,6 +86,9 @@ public class AulaController {
     @PostMapping
     @Transactional
     public ResponseEntity<DadosAulaDetalhada> cadastrar(@RequestBody @Valid DadosCadastroAula dados, UriComponentsBuilder uriBuilder) {
+
+        validacoes.forEach(validacaoAula -> validacaoAula.validarCadastro(dados));
+
         var professor = professorRepository.getReferenceById(dados.professor());
         var aluno = alunoRepository.getReferenceById(dados.aluno());
         var livro = livroRepository.getReferenceById(dados.livro());
@@ -101,6 +106,9 @@ public class AulaController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<DadosAulaDetalhada> atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoAula dados) {
+
+        validacoes.forEach(validacaoAula -> validacaoAula.validarAtualizacao(id, dados));
+
         var aula = aulaRepository.getReferenceById(id);
         aula.atualizar(dados);
         return ResponseEntity.ok(new DadosAulaDetalhada(aula));

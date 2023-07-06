@@ -4,6 +4,7 @@ import com.brenomorim.controlepedagogico.domain.DadosPessoais;
 import com.brenomorim.controlepedagogico.domain.FaixaEtaria;
 import com.brenomorim.controlepedagogico.domain.Nivel;
 import com.brenomorim.controlepedagogico.domain.aluno.*;
+import com.brenomorim.controlepedagogico.domain.aluno.validacao.ValidacaoCadastroAluno;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("alunos")
@@ -23,6 +25,8 @@ public class AlunoController {
 
     @Autowired
     private AlunoRepository repository;
+    @Autowired
+    private List<ValidacaoCadastroAluno> validacoes;
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemAluno>> listar(@PageableDefault(size = 15, sort={"nivel"}) Pageable paginacao,
@@ -49,6 +53,9 @@ public class AlunoController {
     @PostMapping
     @Transactional
     public ResponseEntity<DadosAlunoDetalhado> cadastrar(@RequestBody @Valid DadosCadastroAluno dados, UriComponentsBuilder uriBuilder) {
+
+        validacoes.forEach(validacao -> validacao.validar(dados));
+
         var aluno = dados.converter();
         repository.save(aluno);
 

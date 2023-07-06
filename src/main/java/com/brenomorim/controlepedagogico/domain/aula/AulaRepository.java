@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface AulaRepository extends JpaRepository<Aula, Long> {
 
@@ -20,5 +21,8 @@ public interface AulaRepository extends JpaRepository<Aula, Long> {
 
     @Query("SELECT a FROM Aula a WHERE a.data >= :dataInicial AND a.data <= :dataFinal AND a.aluno.id=:alunoId AND a.professor.id=:professorId")
     Page<Aula> getAulasNoIntervaloPorAlunoEProfessor(LocalDateTime dataInicial, LocalDateTime dataFinal, Long alunoId, Long professorId, Pageable paginacao);
+
+    @Query("SELECT a FROM Aula a WHERE a.data >= :dataInicial AND a.data <= :dataFinal AND a.aluno.id = :alunoId")
+    List<Aula> getAulasDoAlunoPorDataEHorario(LocalDateTime dataInicial, LocalDateTime dataFinal, Long alunoId);
 
 }

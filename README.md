@@ -223,21 +223,21 @@ Retorna lista paginada de alunos, os seguintes parâmetros podem ser passados na
 
 ```yaml
 {
-	"content": [
-		{
-			"id": 2,
-			"nome": "Larissa",
-			"telefone": "11 91234-5678",
-			"status": "ATIVO"
-		},
-		{
-			"id": 3,
-			"nome": "Breno",
-			"telefone": "11 91234-5678",
-			"status": "ATIVO"
-		}
-	],
-	"pageable": {
+  "content": [
+    {
+      "id": 2,
+      "nome": "Larissa",
+      "telefone": "11 91234-5678",
+      "status": "ATIVO"
+    },
+    {
+      "id": 3,
+      "nome": "Breno",
+      "telefone": "11 91234-5678",
+      "status": "ATIVO"
+    }
+  ],
+  "pageable": {
     ...
   }
 }
@@ -251,15 +251,15 @@ Retorna os detalhes de um aluno específico, o retorno dos dados segue o seguint
  
 ```yaml
 {
-	"nome": "Breno",
-	"telefone": "11 91234-5678",
-	"email": "breno@email.com",
-	"cpf": "12345678910",
-	"dataNascimento": "2004-02-13",
-	"observacoes": null,
-	"statusAluno": "ATIVO",
-	"faixaEtaria": "ADULTS",
-	"nivel": "AVANCADO"
+  "nome": "Breno",
+  "telefone": "11 91234-5678",
+  "email": "breno@email.com",
+  "cpf": "12345678910",
+  "dataNascimento": "2004-02-13",
+  "observacoes": null,
+  "statusAluno": "ATIVO",
+  "faixaEtaria": "ADULTS",
+  "nivel": "AVANCADO"
 }
 ```
 
@@ -271,13 +271,13 @@ Cadastra um novo aluno, precisa dos seguintes dados: nome, email, telefone, cpf,
  
 ```yaml
 {
-	"nome": "Maria",
-	"telefone": "11 91234-5678",
-	"email": "maria@email.com",
-	"cpf": "12345678910",
-	"dataNascimento": "1997-03-14",
-	"faixaEtaria": "ADULTS",
-	"nivel": "INTERMEDIARIO"
+  "nome": "Maria",
+  "telefone": "11 91234-5678",
+  "email": "maria@email.com",
+  "cpf": "12345678910",
+  "dataNascimento": "1997-03-14",
+  "faixaEtaria": "ADULTS",
+  "nivel": "INTERMEDIARIO"
 }
 ```
 
@@ -287,8 +287,8 @@ Altera algumas informações do aluno, os dados que podem ser alterados são: em
 
 ```yaml
 {
-	"statusAluno": "CURSO_TRANCADO",
-	"observacoes": "Trancou o curso por falta de interesse"
+  "statusAluno": "CURSO_TRANCADO",
+  "observacoes": "Trancou o curso por falta de interesse"
 }
 ```
 
@@ -304,7 +304,7 @@ Busca paginada pelas aulas, aceita filtros como parâmetros de URL, podem ser pa
 
 ```yaml
 {
-	"content": [
+  "content": [
     {
       "id": 3,
       "aluno": "Felipe",
@@ -331,8 +331,8 @@ Busca paginada pelas aulas, aceita filtros como parâmetros de URL, podem ser pa
       "leitura": "OTIMO",
       "escrita": "OTIMO"
     }
-	],
-	"pageable": {
+  ],
+  "pageable": {
     ...
   }
 }
@@ -354,31 +354,31 @@ Busca de aulas por id, retorna as informações detalhadas da aula, e as informa
  
 ```yaml
 {
-	"id": 2,
-	"aluno": {
-		"id": 1,
-		"nome": "Felipe",
-		"telefone": "11 91234-5678",
-		"status": "ATIVO"
-	},
-	"professor": {
-		"id": 2,
-		"nome": "Larissa",
-		"telefone": "11 91234-5678",
-		"idioma": "INGLES"
-	},
-	"livro": {
-		"nome": "W2",
-		"nivel": "BASICO"
-	},
-	"licao": "12",
-	"data": "2023-06-30T10:00:00",
-	"observacao": null,
-	"statusAula": "DADA",
-	"fala": "OTIMO",
-	"audicao": "MUITO_BOM",
-	"leitura": "OTIMO",
-	"escrita": null
+  "id": 2,
+  "aluno": {
+    "id": 1,
+    "nome": "Felipe",
+    "telefone": "11 91234-5678",
+    "status": "ATIVO"
+  },
+  "professor": {
+    "id": 2,
+    "nome": "Larissa",
+    "telefone": "11 91234-5678",
+    "idioma": "INGLES"
+  },
+  "livro": {
+    "nome": "W2",
+    "nivel": "BASICO"
+  },
+  "licao": "12",
+  "data": "2023-06-30T10:00:00",
+  "observacao": null,
+  "statusAula": "DADA",
+  "fala": "OTIMO",
+  "audicao": "MUITO_BOM",
+  "leitura": "OTIMO",
+  "escrita": null
 }
 ```
 
@@ -390,15 +390,15 @@ Lança as informações de uma aula, tem como parâmetros obrigatórios o id do 
 
 ```yaml
 {
-	"aluno": 1,
-	"professor": 2,
-	"livro": "W2",
-	"licao": "16",
-	"status": "DADA",
-	"data": "2023-07-06T10:00",
-	"fala": "REGULAR",
-	"audicao": "MUITO_BOM",
-	"leitura": "BOM"
+  "aluno": 1,
+  "professor": 2,
+  "livro": "W2",
+  "licao": "16",
+  "status": "DADA",
+  "data": "2023-07-06T10:00",
+  "fala": "REGULAR",
+  "audicao": "MUITO_BOM",
+  "leitura": "BOM"
 }
 ```
 
@@ -411,10 +411,10 @@ Rota para alterar as informações de uma aula, os parâmetros que podem ser pas
 ```yaml
 {
   "data": "2023-06-30T10:00:00",
-	"licao": "Review 2",
-	"statusAula": "DADA",
-	"escrita": "REGULAR",
-	"observacao": "Aluno teve dificuldades na hora de realizar a lição de casa"
+  "licao": "Review 2",
+  "statusAula": "DADA",
+  "escrita": "REGULAR",
+  "observacao": "Aluno teve dificuldades na hora de realizar a lição de casa"
 }
 ```
 

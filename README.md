@@ -63,6 +63,15 @@ Status do aluno:
 - CURSO_CANCELADO
 - CURSO_CONCLUIDO
 
+## Regras de negócio
+
+Até o momento, a aplicação contém as seguintes regras de negócio: 
+- somente alunos com status ativo podem ter aula;
+- um aluno pode realizar no máximo 6 aulas por semana;
+- aluno pode realizar no máximo 3 aulas por dia;
+- alunos só podem ser matriculados a partir de 3 anos de idade;
+- alunos não podem realizar mais de uma aula ao mesmo tempo.
+
 ## Endpoints
 
 ### GET /livros

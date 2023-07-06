@@ -17,6 +17,7 @@ public class ValidacaoAlunoNaoPodeTer2AulasAoMesmoTempo implements ValidacaoAula
     private AlunoRepository alunoRepository;
     @Autowired
     private AulaRepository aulaRepository;
+    String mensagem = "Aluno já tem aula salva nesse horário";
 
     @Override
     public void validarCadastro(DadosCadastroAula dados) {
@@ -25,7 +26,7 @@ public class ValidacaoAlunoNaoPodeTer2AulasAoMesmoTempo implements ValidacaoAula
         boolean temAula = aulaRepository.getAulasDoAlunoPorDataEHorario(dados.data(), dataFinal, aluno.getId()).size() > 0;
 
         if (temAula) {
-            throw new RegraDeNegocioException("Aluno já tem aula salva nesse horário");
+            throw new RegraDeNegocioException(mensagem);
         }
     }
 
@@ -41,7 +42,7 @@ public class ValidacaoAlunoNaoPodeTer2AulasAoMesmoTempo implements ValidacaoAula
         boolean temAula = aulaRepository.getAulasDoAlunoPorDataEHorario(dados.data(), dataFinal, aluno.getId()).size() > 0;
 
         if (temAula) {
-            throw new RegraDeNegocioException("Aluno já tem aula salva nesse horário");
+            throw new RegraDeNegocioException(mensagem);
         }
     }
 }

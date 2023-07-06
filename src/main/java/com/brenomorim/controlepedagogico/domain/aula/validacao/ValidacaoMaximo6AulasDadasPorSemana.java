@@ -16,6 +16,7 @@ public class ValidacaoMaximo6AulasDadasPorSemana implements ValidacaoAula {
     private AlunoRepository alunoRepository;
     @Autowired
     private AulaRepository aulaRepository;
+    private String mensagem = "Aluno pode realizar no máximo 6 aulas por semana";
 
     @Override
     public void validarCadastro(DadosCadastroAula dados) {
@@ -23,7 +24,7 @@ public class ValidacaoMaximo6AulasDadasPorSemana implements ValidacaoAula {
         var aulas = getAulasDadas(dados.data(), aluno.getId());
 
         if (aulas.size() >= 6) {
-            throw new RegraDeNegocioException("Aluno pode realizar no máximo 6 aulas por semana");
+            throw new RegraDeNegocioException(mensagem);
         }
     }
 
@@ -36,7 +37,7 @@ public class ValidacaoMaximo6AulasDadasPorSemana implements ValidacaoAula {
         var aulas = getAulasDadas(dados.data(), aluno.getId());
 
         if (aulas.size() >= 6) {
-            throw new RegraDeNegocioException("Aluno pode realizar no máximo 6 aulas por semana");
+            throw new RegraDeNegocioException(mensagem);
         }
     }
 

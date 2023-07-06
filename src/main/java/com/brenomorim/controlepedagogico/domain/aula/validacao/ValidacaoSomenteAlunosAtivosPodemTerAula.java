@@ -17,12 +17,13 @@ public class ValidacaoSomenteAlunosAtivosPodemTerAula  implements ValidacaoAula 
     private AlunoRepository alunoRepository;
     @Autowired
     private AulaRepository aulaRepository;
+    private String mensagem = "Somente alunos ativos podem ter aula, o status deste aluno é: ";
 
     @Override
     public void validarCadastro(DadosCadastroAula dados) {
         var aluno = alunoRepository.getReferenceById(dados.aluno());
         if (aluno.getStatusAluno() != StatusAluno.ATIVO) {
-            throw new RegraDeNegocioException("Somente alunos ativos podem ter aula, o status deste aluno é: " + aluno.getStatusAluno());
+            throw new RegraDeNegocioException(mensagem + aluno.getStatusAluno());
         }
     }
 
@@ -30,7 +31,7 @@ public class ValidacaoSomenteAlunosAtivosPodemTerAula  implements ValidacaoAula 
     public void validarAtualizacao(Long id, DadosAtualizacaoAula dados) {
         var aluno = aulaRepository.getReferenceById(id).getAluno();
         if (dados.status() == StatusAula.DADA && aluno.getStatusAluno() != StatusAluno.ATIVO) {
-            throw new RegraDeNegocioException("Somente alunos ativos podem ter aula, o status deste aluno é: " + aluno.getStatusAluno());
+            throw new RegraDeNegocioException(mensagem + aluno.getStatusAluno());
         }
     }
 }

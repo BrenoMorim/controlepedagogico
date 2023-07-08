@@ -43,6 +43,13 @@ public class Aula {
     @Enumerated(EnumType.STRING)
     private Conceito escrita;
 
+    public Aula(Aluno aluno, Livro livro, Professor professor, StatusAula status) {
+        this.aluno = aluno;
+        this.livro = livro;
+        this.professor = professor;
+        this.status = status;
+    }
+
     public void atualizar(DadosAtualizacaoAula dados) {
         if (dados.licao() != null) this.licao = dados.licao();
         if (dados.observacao() != null) this.observacao = dados.observacao();

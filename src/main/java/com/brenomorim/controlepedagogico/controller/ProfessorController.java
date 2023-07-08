@@ -2,6 +2,7 @@ package com.brenomorim.controlepedagogico.controller;
 
 import com.brenomorim.controlepedagogico.domain.Idioma;
 import com.brenomorim.controlepedagogico.domain.professor.*;
+import jakarta.persistence.EntityExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,6 +53,10 @@ public class ProfessorController {
     @PostMapping
     @Transactional
     public ResponseEntity<DadosProfessorDetalhado> cadastrar(@RequestBody @Valid DadosCadastroProfessor dados, UriComponentsBuilder uriBuilder) {
+
+        var professorJaExiste = repository.buscaPorEmailTelefoneOuCpf(dados.email(), dados.telefone(), dados.cpf()).size() > 0;
+        if (professorJaExiste) throw new EntityExistsException("Já existe um professor cadastrado com essas informações pessoais (telefone, email ou cpf)");
+
         var professor = dados.converter();
         repository.save(professor);
 

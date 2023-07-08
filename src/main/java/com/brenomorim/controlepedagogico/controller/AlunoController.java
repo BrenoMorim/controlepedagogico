@@ -5,6 +5,7 @@ import com.brenomorim.controlepedagogico.domain.FaixaEtaria;
 import com.brenomorim.controlepedagogico.domain.Nivel;
 import com.brenomorim.controlepedagogico.domain.aluno.*;
 import com.brenomorim.controlepedagogico.domain.aluno.validacao.ValidacaoCadastroAluno;
+import jakarta.persistence.EntityExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -55,6 +56,9 @@ public class AlunoController {
     public ResponseEntity<DadosAlunoDetalhado> cadastrar(@RequestBody @Valid DadosCadastroAluno dados, UriComponentsBuilder uriBuilder) {
 
         validacoes.forEach(validacao -> validacao.validar(dados));
+
+        var alunoJaExiste = repository.buscaPorEmailTelefoneOuCpf(dados.email(), dados.telefone(), dados.cpf()).size() > 0;
+        if (alunoJaExiste) throw new EntityExistsException("Já existe um aluno cadastrado com essas informações pessoais (telefone, email ou cpf)");
 
         var aluno = dados.converter();
         repository.save(aluno);

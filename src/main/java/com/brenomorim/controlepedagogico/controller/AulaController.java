@@ -50,9 +50,7 @@ public class AulaController {
         Aluno aluno = alunoId == null ? null : alunoRepository.getReferenceById(alunoId);
         Livro livro = livroNome == null ? null : livroRepository.getReferenceById(livroNome);
 
-        var aulaExemplo = new Aula(
-                    null, aluno, professor, livro, null, null, null, status, null, null, null, null
-                );
+        var aulaExemplo = new Aula(aluno, livro, professor, status);
         var aulas = aulaRepository.findAll(Example.of(aulaExemplo), paginacao);
         return ResponseEntity.ok(aulas.map(DadosListagemAula::new));
     }

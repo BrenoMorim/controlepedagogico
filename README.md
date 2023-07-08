@@ -41,7 +41,7 @@ Cargo de professor:
 - INSTRUTOR_AUXILIAR_III
 - INSTRUTOR_I
 - INSTRUTOR_II
-- INSTRUTOR_II
+- INSTRUTOR_III
 
 Status da aula:
 

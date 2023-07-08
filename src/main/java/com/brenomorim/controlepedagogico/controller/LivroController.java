@@ -2,6 +2,7 @@ package com.brenomorim.controlepedagogico.controller;
 
 import com.brenomorim.controlepedagogico.domain.Idioma;
 import com.brenomorim.controlepedagogico.domain.livro.*;
+import jakarta.persistence.EntityExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,11 @@ public class LivroController {
     @PostMapping
     @Transactional
     public ResponseEntity<DadosLivroDetalhado> cadastrar(@RequestBody @Valid DadosCadastroLivro dados, UriComponentsBuilder uriBuilder) {
+
+        if (livroRepository.findById(dados.nome()).isPresent()) {
+            throw new EntityExistsException("O livro %s já foi cadastrado no sistema".formatted(dados.nome()));
+        }
+
         var livro = new Livro(dados.nome(), dados.idioma(), dados.faixaEtaria(), dados.nivel());
         livroRepository.save(livro);
 

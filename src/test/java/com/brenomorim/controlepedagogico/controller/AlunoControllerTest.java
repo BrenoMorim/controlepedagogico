@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -42,15 +43,20 @@ public class AlunoControllerTest {
     @DisplayName("Alunos podem ser cadastrados, somente caso ainda não exista um registro com as mesmas informações pessoais")
     @WithMockUser
     void cadastrarAluno() throws Exception {
-        var dados = new DadosAlunoDetalhado("Aluno teste", "11 91234-5678", "aluno@email.com", "12345678910",
-                LocalDate.of(2000, 10, 14), "", StatusAluno.ATIVO, FaixaEtaria.ADULTS, Nivel.INTERMEDIARIO
-        );
-        var dadosCadastro = new DadosCadastroAluno(dados.nome(), dados.telefone(), dados.email(), dados.cpf(), dados.dataNascimento(), dados.faixaEtaria(), null, null);
+
+        var dadosCadastro = new DadosCadastroAluno("Aluno teste", "11 91234-5678", "aluno@email.com",
+                "12345678910", LocalDate.now().minusYears(24), FaixaEtaria.ADULTS, Nivel.INTERMEDIARIO, null);
 
         var resposta = mockMvc.perform(MockMvcRequestBuilders.post("/alunos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(dadosCadastroAlunoJson.write(dadosCadastro).getJson())
         ).andReturn().getResponse();
+
+        var lista = Arrays.stream(resposta.getHeader("Location").split("/")).toList();
+        var id = lista.get(lista.size() - 1);
+        var dados = new DadosAlunoDetalhado(Long.parseLong(id), dadosCadastro.nome(), dadosCadastro.telefone(), dadosCadastro.email(), dadosCadastro.cpf(),
+                dadosCadastro.dataNascimento(), dadosCadastro.observacoes(), StatusAluno.ATIVO, dadosCadastro.faixaEtaria(), dadosCadastro.nivel()
+        );
 
         Assertions.assertEquals(HttpStatus.CREATED.value(), resposta.getStatus());
 
@@ -107,16 +113,17 @@ public class AlunoControllerTest {
                 .content(dadosCadastroAlunoJson.write(dados).getJson())
         ).andReturn().getResponse();
 
-        var location = resposta.getHeader("Location");
+        var lista = Arrays.stream(resposta.getHeader("Location").split("/")).toList();
+        var id = lista.get(lista.size() - 1);
         var dadosAtualizacao = new DadosAtualizacaoAluno(null, null, null, null, StatusAluno.CURSO_TRANCADO, Nivel.INTERMEDIARIO);
-        var respostaAtualizacao = mockMvc.perform(MockMvcRequestBuilders.put(location)
+        var respostaAtualizacao = mockMvc.perform(MockMvcRequestBuilders.put("/alunos/"+id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(dadosAtualizacaoAlunoJson.write(dadosAtualizacao).getJson())
         ).andReturn().getResponse();
 
         var jsonEsperado = new DadosAlunoDetalhado(
-                dados.nome(), dados.telefone(), dados.email(), dados.cpf(), dados.dataNascimento(), dados.observacoes(),
-                dadosAtualizacao.statusAluno(), dados.faixaEtaria(), dadosAtualizacao.nivel()
+                Long.parseLong(id), dados.nome(), dados.telefone(), dados.email(), dados.cpf(), dados.dataNascimento(),
+                dados.observacoes(), dadosAtualizacao.statusAluno(), dados.faixaEtaria(), dadosAtualizacao.nivel()
             );
 
         Assertions.assertEquals(HttpStatus.OK.value(), respostaAtualizacao.getStatus());

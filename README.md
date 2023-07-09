@@ -260,6 +260,7 @@ Retorna os detalhes de um aluno específico, o retorno dos dados segue o seguint
  
 ```yaml
 {
+  "id": 3,
   "nome": "Breno",
   "telefone": "11 91234-5678",
   "email": "breno@email.com",

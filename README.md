@@ -70,7 +70,8 @@ Até o momento, a aplicação contém as seguintes regras de negócio:
 - um aluno pode realizar no máximo 6 aulas por semana;
 - aluno pode realizar no máximo 3 aulas por dia;
 - alunos só podem ser matriculados a partir de 3 anos de idade;
-- alunos não podem realizar mais de uma aula ao mesmo tempo.
+- alunos não podem realizar mais de uma aula ao mesmo tempo;
+- professor não pode ter seu cargo diminuído, somente promoções são aceitas.
 
 ## Endpoints
 

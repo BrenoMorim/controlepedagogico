@@ -2,6 +2,7 @@ package com.brenomorim.controlepedagogico.controller;
 
 import com.brenomorim.controlepedagogico.domain.Idioma;
 import com.brenomorim.controlepedagogico.domain.professor.*;
+import com.brenomorim.controlepedagogico.domain.professor.validacao.ValidacaoAtualizacaoProfessor;
 import jakarta.persistence.EntityExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("professores")
@@ -21,6 +23,8 @@ public class ProfessorController {
 
     @Autowired
     private ProfessorRepository repository;
+    @Autowired
+    private List<ValidacaoAtualizacaoProfessor> validacoesAtualizacao;
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemProfessor>> listar(@PageableDefault(size = 15, sort={"dadosPessoais.nome"}) Pageable paginacao,
@@ -67,6 +71,9 @@ public class ProfessorController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<DadosProfessorDetalhado> atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoProfessor dados) {
+
+        validacoesAtualizacao.forEach(validacao -> validacao.validar(id, dados));
+
         var professor = repository.getReferenceById(id);
         professor.atualizar(dados);
         return ResponseEntity.ok(new DadosProfessorDetalhado(professor));

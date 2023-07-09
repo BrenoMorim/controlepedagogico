@@ -33,8 +33,6 @@ public class LivroControllerTest {
     @Autowired
     private JacksonTester<DadosCadastroLivro> dadosCadastroLivroJson;
     @Autowired
-    private JacksonTester<DadosListagemLivro> dadosListagemLivroJson;
-    @Autowired
     private JacksonTester<DadosLivroDetalhado> dadosLivroDetalhadoJson;
 
     @Test
@@ -81,6 +79,23 @@ public class LivroControllerTest {
         ).andReturn().getResponse();
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), respostaCadastradoDuplicado.getStatus());
+    }
+
+    @Test
+    @DisplayName("Status 400 caso busca incluir parâmetro de query inválido e 200 caso os parâmetros estejam corretos")
+    @WithMockUser
+    void buscaComParametroInvalido() throws Exception {
+        var respostaInvalida = mockMvc.perform(MockMvcRequestBuilders.get("/livros?idioma=INGLATERRA")
+                .accept(MediaType.APPLICATION_JSON)
+        ).andReturn().getResponse();
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), respostaInvalida.getStatus());
+
+        var respostaValida = mockMvc.perform(MockMvcRequestBuilders.get("/livros?idioma=INGLES")
+                .accept(MediaType.APPLICATION_JSON)
+        ).andReturn().getResponse();
+
+        Assertions.assertEquals(HttpStatus.OK.value(), respostaValida.getStatus());
     }
 
 }

@@ -23,7 +23,7 @@ public class ValidacaoMaximo6AulasDadasPorSemana implements ValidacaoAula {
         var aluno = alunoRepository.getReferenceById(dados.aluno());
         var aulas = getAulasDadas(dados.data(), aluno.getId());
 
-        if (aulas.size() >= 6) {
+        if (aulas.size() > 6) {
             throw new RegraDeNegocioException(mensagem);
         }
     }
@@ -36,7 +36,7 @@ public class ValidacaoMaximo6AulasDadasPorSemana implements ValidacaoAula {
         }
         var aulas = getAulasDadas(dados.data(), aluno.getId());
 
-        if (aulas.size() >= 6) {
+        if (aulas.size() > 6) {
             throw new RegraDeNegocioException(mensagem);
         }
     }

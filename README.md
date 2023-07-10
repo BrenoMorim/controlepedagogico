@@ -2,6 +2,13 @@
 
 Projeto de sistema para gestão pedagógica, com suporte a CRUD de alunos, professores, aulas, livros e turmas.
 
+| :placard: Vitrine.Dev |                                            |
+|-----------------------|--------------------------------------------|
+| :sparkles: Nome       | **Controle Pedagógico**                    |
+| :label: Tecnologias   | Java, Spring, MySQL, FlyWay                |
+
+![Resposta de exemplo do endpoint /aulas](https://github.com/BrenoMorim/controlepedagogico/blob/main/imagem-do-projeto.png?raw=true#vitrinedev)
+
 ## Detalhes
 
 O projeto busca gerir as informações pedagógicas de alunos seguindo o padrão da Wizard, visto que atuo como professor nessa empresa. A aplicação segue o padrão REST com autenticação via token JWT, usando Java e Spring Boot como plataforma e MySQL como database, além de usar H2 como banco de dados para testes, executados via JUnit. A arquitetura da aplicação é dividida em: controller - controladores e comunicação HTTP, domain - regras de negócio e abstrações, e infra - configurações e segurança. 

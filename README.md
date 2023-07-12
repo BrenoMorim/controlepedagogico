@@ -80,6 +80,57 @@ Até o momento, a aplicação contém as seguintes regras de negócio:
 - alunos não podem realizar mais de uma aula ao mesmo tempo;
 - professor não pode ter seu cargo diminuído, somente promoções são aceitas.
 
+## Importando e preparando o projeto
+
+```sh
+git clone https://github.com/BrenoMorim/controlepedagogico.git controlepedagogico
+cd controlepedagogico
+./mvnw clean install
+```
+
+Com esses comandos, o projeto e todas as suas dependências já estarão carregadas, também é possível fazer a mesma coisa com uma IDE como IntelliJ ou Eclipse.
+
+## Executando o projeto
+
+```sh
+./mvnw spring-boot:run
+```
+
+## Rodando os testes automatizados
+
+```sh
+./mvnw test
+```
+
+## Execuntando com o Docker
+
+Para executar o projeto com Docker, algumas variáveis de ambiente devem ser declaradas em um arquivo .env na raiz do projeto, segue um exemplo com as configurações:
+
+```properties
+### Arquivo .env ###
+
+### Configuração da base de dados ###
+
+DATASOURCE_URL=jdbc:mysql://mysqldb:3306/controle_pedagogico
+DATASOURCE_DATABASE=controle_pedagogico
+DATASOURCE_USERNAME=root
+DATASOURCE_PASSWORD=root
+
+### Configuração das portas ###
+
+MYSQLDB_LOCAL_PORT=3307
+MYSQLDB_DOCKER_PORT=3306
+
+SPRING_LOCAL_PORT=8080
+SPRING_DOCKER_PORT=8080
+```
+
+Com as variáveis de ambiente já configuradas, basta executar o seguinte comando:
+
+```sh
+docker compose up
+```
+
 ## Endpoints
 
 ### GET /livros

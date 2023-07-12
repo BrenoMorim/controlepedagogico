@@ -44,7 +44,7 @@ public class ProfessorControllerTest {
     void cadastrarProfessor() throws Exception {
 
         var dadosCadastro = new DadosCadastroProfessor(
-                "Professor", "12345678910", "professor@email.com", "11 91234-5678", LocalDate.now(),
+                "Professor John", "65175989178", "projessorjohn@email.com", "+55 11 98234-5678", LocalDate.now(),
                 Idioma.INGLES, CargoProfessor.INSTRUTOR_II
             );
 

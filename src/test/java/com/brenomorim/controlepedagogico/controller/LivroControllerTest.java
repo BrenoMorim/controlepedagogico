@@ -37,7 +37,7 @@ public class LivroControllerTest {
     @DisplayName("Livro deve ser cadastrado com sucesso quando os dados forem válidos e o livro pode ser pesquisado depois via GET")
     @WithMockUser
     void cadastrarLivro() throws Exception {
-        var dados = new DadosLivroDetalhado("W2", Idioma.INGLES, Nivel.BASICO, FaixaEtaria.ADULTS);
+        var dados = new DadosLivroDetalhado("A2", Idioma.ALEMAO, Nivel.BASICO, FaixaEtaria.ADULTS);
         var dadosCadastro = new DadosCadastroLivro(dados.nome(), dados.idioma(), dados.faixaEtaria(), dados.nivel());
 
         var resposta = mockMvc.perform(MockMvcRequestBuilders.post("/livros")
@@ -50,7 +50,7 @@ public class LivroControllerTest {
         var jsonEsperado = dadosLivroDetalhadoJson.write(dados).getJson();
         Assertions.assertEquals(jsonEsperado, resposta.getContentAsString());
 
-        var busca = mockMvc.perform(MockMvcRequestBuilders.get("/livros/W2")
+        var busca = mockMvc.perform(MockMvcRequestBuilders.get("/livros/" + dados.nome())
                 .accept(MediaType.APPLICATION_JSON)
         ).andReturn().getResponse();
 

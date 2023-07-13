@@ -70,6 +70,13 @@ Status do aluno:
 - CURSO_CANCELADO
 - CURSO_CONCLUIDO
 
+Roles:
+
+- PROFESSOR
+- ALUNO
+- SECRETARIA
+- COORDENACAO
+
 ## Regras de negócio
 
 Até o momento, a aplicação contém as seguintes regras de negócio: 
@@ -490,5 +497,48 @@ Rota para alterar as informações de uma aula, os parâmetros que podem ser pas
 ### DELETE /aulas/{id}
 
 Deleta uma aula do sistema através do id, retornando 204 em caso de sucesso.
+
+## Autenticação
+
+As rotas de /auth e GET para /livros são liberadas, todas as outras exigem autenticação.
+
+### /auth/login
+
+Realiza login, retornando token JWT para ser usado como Authorization:
+
+> Exemplo:
+
+```yml
+{
+  "email": "breno@email.com",
+  "senha": "1234567"
+}
+```
+
+```yml
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJicmVub0BlbWFpbC5jb20iLCJpYXQiOjE2ODkyODM3MjcsImV4cCI6MTY4OTI4NTE2N30.EImlkVfTUdZNZVgpqe-doi4P7hSp9v47C59NLbHJiTo"
+}
+```
+
+### /auth/cadastro
+
+Realiza cadastro, também retornando token JWT em caso de sucesso:
+
+> Exemplo:
+
+```yml
+{
+  "email": "secretaria@email.com",
+  "senha": "1234567",
+  "role": "SECRETARIA"
+}
+```
+
+```yml
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZWNyZXRhcmlhQGVtYWlsLmNvbSIsImlhdCI6MTY4OTI4Mjg3NCwiZXhwIjoxNjg5Mjg0MzE0fQ.Pb7XJI5GP9O3qlP4sRlY1xwi2AvL1kNU8MJsAJ6vX_o"
+}
+```
 
 ---

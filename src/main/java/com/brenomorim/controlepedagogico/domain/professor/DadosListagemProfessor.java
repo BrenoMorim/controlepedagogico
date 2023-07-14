@@ -1,6 +1,6 @@
 package com.brenomorim.controlepedagogico.domain.professor;
 
-import com.brenomorim.controlepedagogico.domain.Idioma;
+import com.brenomorim.controlepedagogico.domain.shared.Idioma;
 
 public record DadosListagemProfessor(Long id, String nome, String telefone, Idioma idioma) {
     public DadosListagemProfessor(Professor professor) {

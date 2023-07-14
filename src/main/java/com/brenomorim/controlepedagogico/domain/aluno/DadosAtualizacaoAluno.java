@@ -1,7 +1,7 @@
 package com.brenomorim.controlepedagogico.domain.aluno;
 
-import com.brenomorim.controlepedagogico.domain.FaixaEtaria;
-import com.brenomorim.controlepedagogico.domain.Nivel;
+import com.brenomorim.controlepedagogico.domain.shared.FaixaEtaria;
+import com.brenomorim.controlepedagogico.domain.shared.Nivel;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 

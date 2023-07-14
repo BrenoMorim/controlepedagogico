@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -41,13 +42,13 @@ public class AulaController {
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemAula>> listar(@PageableDefault(size = 15, sort={"data"}, direction = Sort.Direction.DESC) Pageable paginacao,
-                                                          @RequestParam(required = false, name="aluno_id") Long alunoId,
-                                                          @RequestParam(required = false, name="professor_id") Long professorId,
-                                                          @RequestParam(required = false, name="livro") String livroNome,
-                                                          @RequestParam(required = false, name="status") StatusAula status) {
+              @RequestParam(required = false, name="aluno_id") Long alunoId,
+              @RequestParam(required = false, name="professor_id") Long professorId,
+              @RequestParam(required = false, name="livro") String livroNome,
+              @RequestParam(required = false, name="status") StatusAula status) {
 
-        Professor professor = professorId == null ? null : professorRepository.getReferenceById(professorId);
         Aluno aluno = alunoId == null ? null : alunoRepository.getReferenceById(alunoId);
+        Professor professor = professorId == null ? null : professorRepository.getReferenceById(professorId);
         Livro livro = livroNome == null ? null : livroRepository.getReferenceById(livroNome);
 
         var aulaExemplo = new Aula(aluno, livro, professor, status);
@@ -56,6 +57,7 @@ public class AulaController {
     }
 
     @GetMapping("/filtro_data")
+    @PreAuthorize("hasRole('SECRETARIA') or hasRole('PROFESSOR') or hasRole('COORDENACAO')")
     public ResponseEntity<Page<DadosListagemAula>> filtrarPorData(@PageableDefault(size = 15, sort={"data"}, direction = Sort.Direction.DESC) Pageable paginacao,
                                                                   @RequestParam(name="data_inicial") LocalDateTime dataInicial, @RequestParam(name="data_final") LocalDateTime dataFinal,
                                                                   @RequestParam(required=false, name="professor_id") Long professorId, @RequestParam(required=false, name="aluno_id") Long alunoId) {
@@ -64,9 +66,9 @@ public class AulaController {
 
         if (professorId == null && alunoId == null) {
             aulas = aulaRepository.getAulasNoIntervalo(dataInicial, dataFinal, paginacao);
-        } else if (professorId == null && alunoId != null) {
+        } else if (professorId == null) {
             aulas = aulaRepository.getAulasNoIntervaloPorAluno(dataInicial, dataFinal, alunoId, paginacao);
-        } else if (professorId != null && alunoId == null) {
+        } else if (alunoId == null) {
             aulas = aulaRepository.getAulasNoIntervaloPorProfessor(dataInicial, dataFinal, professorId, paginacao);
         } else {
             aulas = aulaRepository.getAulasNoIntervaloPorAlunoEProfessor(dataInicial, dataFinal, alunoId, professorId, paginacao);
@@ -78,11 +80,13 @@ public class AulaController {
     @GetMapping("/{id}")
     public ResponseEntity<DadosAulaDetalhada> buscaPorId(@PathVariable Long id) {
         var aula = aulaRepository.getReferenceById(id);
+
         return ResponseEntity.ok(new DadosAulaDetalhada(aula));
     }
 
     @PostMapping
     @Transactional
+    @PreAuthorize("hasRole('PROFESSOR') or hasRole('COORDENACAO')")
     public ResponseEntity<DadosAulaDetalhada> cadastrar(@RequestBody @Valid DadosCadastroAula dados, UriComponentsBuilder uriBuilder) {
 
         validacoes.forEach(validacaoAula -> validacaoAula.validarCadastro(dados));
@@ -103,6 +107,7 @@ public class AulaController {
 
     @PutMapping("/{id}")
     @Transactional
+    @PreAuthorize("hasRole('PROFESSOR') or hasRole('COORDENACAO')")
     public ResponseEntity<DadosAulaDetalhada> atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoAula dados) {
 
         validacoes.forEach(validacaoAula -> validacaoAula.validarAtualizacao(id, dados));
@@ -114,6 +119,7 @@ public class AulaController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @PreAuthorize("hasRole('PROFESSOR') or hasRole('COORDENACAO')")
     public ResponseEntity deletar(@PathVariable Long id) {
         var aula = aulaRepository.getReferenceById(id);
         aulaRepository.delete(aula);

@@ -1,7 +1,7 @@
 package com.brenomorim.controlepedagogico.domain.professor;
 
-import com.brenomorim.controlepedagogico.domain.DadosPessoais;
-import com.brenomorim.controlepedagogico.domain.Idioma;
+import com.brenomorim.controlepedagogico.domain.shared.DadosPessoais;
+import com.brenomorim.controlepedagogico.domain.shared.Idioma;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;

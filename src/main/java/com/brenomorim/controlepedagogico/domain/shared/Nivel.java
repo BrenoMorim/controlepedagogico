@@ -1,4 +1,4 @@
-package com.brenomorim.controlepedagogico.domain;
+package com.brenomorim.controlepedagogico.domain.shared;
 
 public enum Nivel {
     BASICO,

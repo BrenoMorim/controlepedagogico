@@ -1,5 +1,6 @@
 package com.brenomorim.controlepedagogico.domain.usuario;
 
+import com.brenomorim.controlepedagogico.domain.shared.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,7 @@ import java.util.List;
 public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)

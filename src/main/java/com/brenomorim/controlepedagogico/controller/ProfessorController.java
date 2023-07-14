@@ -1,6 +1,6 @@
 package com.brenomorim.controlepedagogico.controller;
 
-import com.brenomorim.controlepedagogico.domain.Idioma;
+import com.brenomorim.controlepedagogico.domain.shared.Idioma;
 import com.brenomorim.controlepedagogico.domain.professor.*;
 import com.brenomorim.controlepedagogico.domain.professor.validacao.ValidacaoAtualizacaoProfessor;
 import jakarta.persistence.EntityExistsException;
@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,6 +28,7 @@ public class ProfessorController {
     private List<ValidacaoAtualizacaoProfessor> validacoesAtualizacao;
 
     @GetMapping
+    @PreAuthorize("hasRole('COORDENACAO') or hasRole('SECRETARIA') or hasRole('PROFESSOR')")
     public ResponseEntity<Page<DadosListagemProfessor>> listar(@PageableDefault(size = 15, sort={"dadosPessoais.nome"}) Pageable paginacao,
                                                                @RequestParam(required = false, name="idioma") Idioma idioma) {
         Page<Professor> professores;
@@ -39,6 +41,7 @@ public class ProfessorController {
     }
 
     @GetMapping("/busca")
+    @PreAuthorize("hasRole('COORDENACAO') or hasRole('SECRETARIA') or hasRole('PROFESSOR')")
     public ResponseEntity<?> buscaCompleta(@RequestParam(required = false) String nome,
                                                                  @RequestParam(required = false) String telefone, @RequestParam(required = false) String email) {
         if (nome == null && telefone == null && email == null) {
@@ -49,6 +52,7 @@ public class ProfessorController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('COORDENACAO') or hasRole('SECRETARIA') or hasRole('PROFESSOR')")
     public ResponseEntity<DadosProfessorDetalhado> buscaPorId(@PathVariable Long id) {
         var professor = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosProfessorDetalhado(professor));
@@ -56,6 +60,7 @@ public class ProfessorController {
 
     @PostMapping
     @Transactional
+    @PreAuthorize("hasRole('COORDENACAO')")
     public ResponseEntity<DadosProfessorDetalhado> cadastrar(@RequestBody @Valid DadosCadastroProfessor dados, UriComponentsBuilder uriBuilder) {
 
         var professorJaExiste = repository.buscaPorEmailTelefoneOuCpf(dados.email(), dados.telefone(), dados.cpf()).size() > 0;
@@ -70,6 +75,7 @@ public class ProfessorController {
 
     @PutMapping("/{id}")
     @Transactional
+    @PreAuthorize("hasRole('COORDENACAO')")
     public ResponseEntity<DadosProfessorDetalhado> atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoProfessor dados) {
 
         validacoesAtualizacao.forEach(validacao -> validacao.validar(id, dados));
@@ -81,6 +87,7 @@ public class ProfessorController {
 
     @DeleteMapping
     @Transactional
+    @PreAuthorize("hasRole('COORDENACAO')")
     public ResponseEntity deletar(@PathVariable Long id) {
         var professor = repository.getReferenceById(id);
         repository.delete(professor);

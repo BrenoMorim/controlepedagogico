@@ -1,6 +1,6 @@
 package com.brenomorim.controlepedagogico.domain.professor.validacao;
 
-import com.brenomorim.controlepedagogico.domain.RegraDeNegocioException;
+import com.brenomorim.controlepedagogico.domain.exception.RegraDeNegocioException;
 import com.brenomorim.controlepedagogico.domain.professor.CargoProfessor;
 import com.brenomorim.controlepedagogico.domain.professor.DadosAtualizacaoProfessor;
 import com.brenomorim.controlepedagogico.domain.professor.ProfessorRepository;

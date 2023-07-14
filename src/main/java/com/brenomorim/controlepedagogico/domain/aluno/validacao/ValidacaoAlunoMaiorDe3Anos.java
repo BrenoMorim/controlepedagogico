@@ -1,6 +1,6 @@
 package com.brenomorim.controlepedagogico.domain.aluno.validacao;
 
-import com.brenomorim.controlepedagogico.domain.RegraDeNegocioException;
+import com.brenomorim.controlepedagogico.domain.exception.RegraDeNegocioException;
 import com.brenomorim.controlepedagogico.domain.aluno.DadosCadastroAluno;
 import org.springframework.stereotype.Component;
 

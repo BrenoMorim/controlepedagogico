@@ -1,8 +1,8 @@
 package com.brenomorim.controlepedagogico.domain.aluno;
 
-import com.brenomorim.controlepedagogico.domain.DadosPessoais;
-import com.brenomorim.controlepedagogico.domain.FaixaEtaria;
-import com.brenomorim.controlepedagogico.domain.Nivel;
+import com.brenomorim.controlepedagogico.domain.shared.DadosPessoais;
+import com.brenomorim.controlepedagogico.domain.shared.FaixaEtaria;
+import com.brenomorim.controlepedagogico.domain.shared.Nivel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

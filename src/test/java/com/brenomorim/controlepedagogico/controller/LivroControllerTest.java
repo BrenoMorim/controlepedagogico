@@ -1,8 +1,8 @@
 package com.brenomorim.controlepedagogico.controller;
 
-import com.brenomorim.controlepedagogico.domain.FaixaEtaria;
-import com.brenomorim.controlepedagogico.domain.Idioma;
-import com.brenomorim.controlepedagogico.domain.Nivel;
+import com.brenomorim.controlepedagogico.domain.shared.FaixaEtaria;
+import com.brenomorim.controlepedagogico.domain.shared.Idioma;
+import com.brenomorim.controlepedagogico.domain.shared.Nivel;
 import com.brenomorim.controlepedagogico.domain.livro.DadosCadastroLivro;
 import com.brenomorim.controlepedagogico.domain.livro.DadosLivroDetalhado;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @AutoConfigureJsonTesters
 public class LivroControllerTest {
 

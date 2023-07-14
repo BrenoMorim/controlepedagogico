@@ -1,4 +1,4 @@
-package com.brenomorim.controlepedagogico.domain;
+package com.brenomorim.controlepedagogico.domain.shared;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

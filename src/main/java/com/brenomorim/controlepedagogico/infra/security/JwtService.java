@@ -1,11 +1,17 @@
 package com.brenomorim.controlepedagogico.infra.security;
 
+import com.brenomorim.controlepedagogico.domain.exception.AutenticacaoException;
+import com.brenomorim.controlepedagogico.domain.usuario.Usuario;
+import com.brenomorim.controlepedagogico.domain.usuario.UsuarioRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,44 +22,54 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@Profile(value = {"prod", "dev", "default"})
 public class JwtService {
     @Value("${api.security.token.secret}")
     private String jwtSigningKey;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    public String extractUserName(String token) {
-        return extractClaim(token, Claims::getSubject);
+    public String extrairUsername(String token) {
+        return extrairClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String gerarToken(UserDetails userDetails) {
+        return gerarToken(new HashMap<>(), userDetails);
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String userName = extractUserName(token);
-        return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    public Usuario extrairUsuario(HttpServletRequest request) {
+        var token = request.getHeader("AUTHORIZATION").replace("Bearer", "").replaceAll(" ", "");
+        var email = this.extrairUsername(token);
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new AutenticacaoException("Usuário não encontrado, refaça seu login e tente novamente"));
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
-        final Claims claims = extractAllClaims(token);
+    public boolean validaToken(String token, UserDetails userDetails) {
+        final String userName = extrairUsername(token);
+        return (userName.equals(userDetails.getUsername())) && !tokenEstaExpirado(token);
+    }
+
+    private <T> T extrairClaim(String token, Function<Claims, T> claimsResolvers) {
+        final Claims claims = extrairTodasClaims(token);
         return claimsResolvers.apply(claims);
     }
 
-    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    private String gerarToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+    private boolean tokenEstaExpirado(String token) {
+        return extrairDataExpiracao(token).before(new Date());
     }
 
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+    private Date extrairDataExpiracao(String token) {
+        return extrairClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
+    private Claims extrairTodasClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token)
                 .getBody();
     }

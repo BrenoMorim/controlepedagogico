@@ -1,8 +1,9 @@
 package com.brenomorim.controlepedagogico.infra.exception;
 
-import com.brenomorim.controlepedagogico.domain.RegraDeNegocioException;
+import com.brenomorim.controlepedagogico.domain.exception.RegraDeNegocioException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -33,6 +34,11 @@ public class TratadorDeErros {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity tratarErroDeTipoInvalido() {
         return ResponseEntity.badRequest().body(Map.of("message", "Um valor foi fornecido com o tipo inválido, caso esteja utilizando algum Enum ou data, verifique se o valor passado está dentre as opções válidas e no formato correto"));
+    }
+
+    @ExceptionHandler(ConversionFailedException.class)
+    public ResponseEntity tratarErroDeConversao() {
+        return ResponseEntity.badRequest().body(Map.of("message", "Houve um erro de conversão de valores, certifique-se que os parâmetros passados estão com os tipos corretos"));
     }
 
     @ExceptionHandler(RegraDeNegocioException.class)

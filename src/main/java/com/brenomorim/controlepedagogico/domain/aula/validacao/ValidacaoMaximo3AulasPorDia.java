@@ -1,6 +1,6 @@
 package com.brenomorim.controlepedagogico.domain.aula.validacao;
 
-import com.brenomorim.controlepedagogico.domain.RegraDeNegocioException;
+import com.brenomorim.controlepedagogico.domain.exception.RegraDeNegocioException;
 import com.brenomorim.controlepedagogico.domain.aluno.AlunoRepository;
 import com.brenomorim.controlepedagogico.domain.aula.*;
 import org.springframework.beans.factory.annotation.Autowired;

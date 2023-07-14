@@ -1,5 +1,6 @@
 package com.brenomorim.controlepedagogico.domain.usuario;
 
+import com.brenomorim.controlepedagogico.domain.shared.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

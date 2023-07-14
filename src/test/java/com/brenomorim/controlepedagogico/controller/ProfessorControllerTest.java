@@ -1,6 +1,6 @@
 package com.brenomorim.controlepedagogico.controller;
 
-import com.brenomorim.controlepedagogico.domain.Idioma;
+import com.brenomorim.controlepedagogico.domain.shared.Idioma;
 import com.brenomorim.controlepedagogico.domain.professor.CargoProfessor;
 import com.brenomorim.controlepedagogico.domain.professor.DadosAtualizacaoProfessor;
 import com.brenomorim.controlepedagogico.domain.professor.DadosCadastroProfessor;
@@ -25,7 +25,7 @@ import java.util.Arrays;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @AutoConfigureJsonTesters
 public class ProfessorControllerTest {
 

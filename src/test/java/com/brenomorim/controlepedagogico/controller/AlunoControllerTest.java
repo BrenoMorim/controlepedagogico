@@ -1,7 +1,7 @@
 package com.brenomorim.controlepedagogico.controller;
 
-import com.brenomorim.controlepedagogico.domain.FaixaEtaria;
-import com.brenomorim.controlepedagogico.domain.Nivel;
+import com.brenomorim.controlepedagogico.domain.shared.FaixaEtaria;
+import com.brenomorim.controlepedagogico.domain.shared.Nivel;
 import com.brenomorim.controlepedagogico.domain.aluno.DadosAlunoDetalhado;
 import com.brenomorim.controlepedagogico.domain.aluno.DadosAtualizacaoAluno;
 import com.brenomorim.controlepedagogico.domain.aluno.DadosCadastroAluno;
@@ -26,7 +26,7 @@ import java.util.Arrays;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @AutoConfigureJsonTesters
 public class AlunoControllerTest {
 

@@ -1,8 +1,8 @@
 package com.brenomorim.controlepedagogico.controller;
 
-import com.brenomorim.controlepedagogico.domain.DadosPessoais;
-import com.brenomorim.controlepedagogico.domain.FaixaEtaria;
-import com.brenomorim.controlepedagogico.domain.Nivel;
+import com.brenomorim.controlepedagogico.domain.shared.DadosPessoais;
+import com.brenomorim.controlepedagogico.domain.shared.FaixaEtaria;
+import com.brenomorim.controlepedagogico.domain.shared.Nivel;
 import com.brenomorim.controlepedagogico.domain.aluno.*;
 import com.brenomorim.controlepedagogico.domain.aluno.validacao.ValidacaoCadastroAluno;
 import jakarta.persistence.EntityExistsException;
@@ -31,6 +31,7 @@ public class AlunoController {
     private List<ValidacaoCadastroAluno> validacoes;
 
     @GetMapping
+    @PreAuthorize("hasRole('SECRETARIA') or hasRole('COORDENACAO') or hasRole('PROFESSOR')")
     public ResponseEntity<Page<DadosListagemAluno>> listar(@PageableDefault(size = 15, sort={"nivel"}) Pageable paginacao,
                                                            @RequestParam(required = false) String nome,
                                                            @RequestParam(required = false, name = "status") StatusAluno status,
@@ -47,6 +48,7 @@ public class AlunoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('SECRETARIA') or hasRole('COORDENACAO') or hasRole('PROFESSOR')")
     public ResponseEntity<DadosAlunoDetalhado> buscarPorId(@PathVariable Long id) {
         var aluno = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosAlunoDetalhado(aluno));
@@ -54,6 +56,7 @@ public class AlunoController {
 
     @PostMapping
     @Transactional
+    @PreAuthorize("hasRole('SECRETARIA') or hasRole('COORDENACAO')")
     public ResponseEntity<DadosAlunoDetalhado> cadastrar(@RequestBody @Valid DadosCadastroAluno dados, UriComponentsBuilder uriBuilder) {
 
         validacoes.forEach(validacao -> validacao.validar(dados));
@@ -70,6 +73,7 @@ public class AlunoController {
 
     @PutMapping("/{id}")
     @Transactional
+    @PreAuthorize("hasRole('SECRETARIA') or hasRole('COORDENACAO')")
     public ResponseEntity<DadosAlunoDetalhado> atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoAluno dados) {
         var aluno = repository.getReferenceById(id);
         aluno.atualizar(dados);
@@ -78,6 +82,7 @@ public class AlunoController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @PreAuthorize("hasRole('SECRETARIA') or hasRole('COORDENACAO')")
     public ResponseEntity deletar(@PathVariable Long id) {
         var aluno = repository.getReferenceById(id);
         repository.delete(aluno);

@@ -72,10 +72,10 @@ Status do aluno:
 
 Roles:
 
-- PROFESSOR
-- ALUNO
-- SECRETARIA
-- COORDENACAO
+- ROLE_PROFESSOR
+- ROLE_ALUNO
+- ROLE_SECRETARIA
+- ROLE_COORDENACAO
 
 ## Regras de negócio
 
@@ -500,9 +500,9 @@ Deleta uma aula do sistema através do id, retornando 204 em caso de sucesso.
 
 ## Autenticação
 
-As rotas de /auth e GET para /livros são liberadas, todas as outras exigem autenticação.
+Os endpoints de autenticação são os seguintes:
 
-### /auth/login
+### POST /auth/login
 
 Realiza login, retornando token JWT para ser usado como Authorization:
 
@@ -521,9 +521,9 @@ Realiza login, retornando token JWT para ser usado como Authorization:
 }
 ```
 
-### /auth/cadastro
+### POST /auth/cadastro
 
-Realiza cadastro, também retornando token JWT em caso de sucesso:
+Realiza cadastro, retornando os dados do usuário cadastrado:
 
 > Exemplo:
 
@@ -531,14 +531,87 @@ Realiza cadastro, também retornando token JWT em caso de sucesso:
 {
   "email": "secretaria@email.com",
   "senha": "1234567",
-  "role": "SECRETARIA"
+  "role": "ROLE_SECRETARIA"
 }
 ```
 
 ```yml
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZWNyZXRhcmlhQGVtYWlsLmNvbSIsImlhdCI6MTY4OTI4Mjg3NCwiZXhwIjoxNjg5Mjg0MzE0fQ.Pb7XJI5GP9O3qlP4sRlY1xwi2AvL1kNU8MJsAJ6vX_o"
+  "id": 1,
+  "email": "secretaria@email.com",
+  "role": "ROLE_SECRETARIA"
 }
 ```
+
+### GET /auth/usuarios
+
+Busca pagina pelos usuários, pode ser passado o atributo role como parâmetro de URL.
+
+```yml
+{
+  "content": [
+    {
+      "id": 6,
+      "email": "aluno@email.com",
+      "role": "ROLE_ALUNO"
+    },
+    {
+      "id": 7,
+      "email": "coordenacao@email.com",
+      "role": "ROLE_COORDENACAO"
+    }
+  ],
+  "pageable": {
+    ...
+  }
+}
+```
+
+### /auth/usuarios/aluno@email.com
+
+Busca usuário pelo email, retornando os mesmos dados do endpoint anterior.
+
+```yml
+{
+  "id": 6,
+  "email": "aluno@email.com",
+  "role": "ROLE_ALUNO"
+}
+```
+
+### DELETE /auth/usuarios/aluno@email.com
+
+Deleta um usuário pelo seu email.
+
+## Regras de autorização
+
+> Aluno Controller
+
+- GET autorizado para professores, secretaria e coordenação
+- Operações POST, PUT e DELETE autorizado para a secretaria e coordenação somente
+
+> Aula Controller
+
+- GET autorizado para todas as roles
+- Caso a role seja aluno, este só pode acessar as aulas referentes a si mesmo
+- POST, PUT e DELETE autorizados somente para professores e a coordenação
+
+> Livro Controller
+
+- GET público até para usuários não autenticados
+- POST e DELETE permitido somente para a coordenação
+
+> Professor Controller
+
+- GET autorizado para professores, secretaria e coordenação
+- Operações POST, PUT e DELETE autorizado para a coordenação somente
+
+> Auth Controller
+
+- /auth/login público
+- /auth/cadastro permitidos somente para a coordenação e secretaria
+- No caso de cadastro feito pela secretaria, o usuário cadastrado só pode ser da role aluno
+- GET relacionado a /auth/usuarios é permitido para coordenação, secretaria e professores
+- DELETE permitido somente para a coordenação
 
 ---

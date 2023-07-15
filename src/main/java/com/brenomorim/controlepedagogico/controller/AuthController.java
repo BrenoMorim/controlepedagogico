@@ -16,10 +16,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RequestMapping("/auth")
 @RestController
-@Profile(value = {"prod", "dev", "default"})
+@Profile(value = {"prod", "default", "authtest"})
 public class AuthController {
 
     @Autowired
@@ -37,7 +38,7 @@ public class AuthController {
 
     @PostMapping("/cadastro")
     @PreAuthorize("hasRole('COORDENACAO') or hasRole('SECRETARIA')")
-    public ResponseEntity<DadosListagemUsuario> cadastro(HttpServletRequest request, @RequestBody @Valid DadosCadastroUsuario dados) {
+    public ResponseEntity<DadosListagemUsuario> cadastro(HttpServletRequest request, @RequestBody @Valid DadosCadastroUsuario dados, UriComponentsBuilder uriBuilder) {
 
         boolean jaExiste = usuarioRepository.findByEmail(dados.email()).isPresent();
         if (jaExiste) throw new RegraDeNegocioException("Já existe um usuário cadastrado com esse email");
@@ -47,10 +48,10 @@ public class AuthController {
             throw new RegraDeNegocioException("A secretaria só pode cadastrar usuários alunos no sistema");
         }
 
-        var resposta = service.cadastrar(dados);
-        var usuarioCriado = jwtService.extrairUsername(resposta.token());
+        service.cadastrar(dados);
+        var uri = uriBuilder.path("/auth/usuarios/{email}").buildAndExpand(dados.email()).toUri();
 
-        return ResponseEntity.ok(new DadosListagemUsuario(usuarioRepository.findByEmail(usuarioCriado).get()));
+        return ResponseEntity.created(uri).body(new DadosListagemUsuario(usuarioRepository.findByEmail(dados.email()).get()));
     }
 
     @GetMapping("/usuarios")

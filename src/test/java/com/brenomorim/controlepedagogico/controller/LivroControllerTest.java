@@ -35,7 +35,6 @@ public class LivroControllerTest {
 
     @Test
     @DisplayName("Livro deve ser cadastrado com sucesso quando os dados forem válidos e o livro pode ser pesquisado depois via GET")
-    @WithMockUser
     void cadastrarLivro() throws Exception {
         var dados = new DadosLivroDetalhado("A2", Idioma.ALEMAO, Nivel.BASICO, FaixaEtaria.ADULTS);
         var dadosCadastro = new DadosCadastroLivro(dados.nome(), dados.idioma(), dados.faixaEtaria(), dados.nivel());
@@ -60,7 +59,6 @@ public class LivroControllerTest {
 
     @Test
     @DisplayName("Status 400 deve ser retornado caso dois livros iguais estejam sendo cadastrados")
-    @WithMockUser
     void cadastroDuplicado() throws Exception {
         var dadosCadastro = new DadosCadastroLivro("E4", Idioma.ESPANHOL, FaixaEtaria.ADULTS, Nivel.INTERMEDIARIO);
 
@@ -81,7 +79,6 @@ public class LivroControllerTest {
 
     @Test
     @DisplayName("Status 400 caso busca incluir parâmetro de query inválido e 200 caso os parâmetros estejam corretos")
-    @WithMockUser
     void buscaComParametroInvalido() throws Exception {
         var respostaInvalida = mockMvc.perform(MockMvcRequestBuilders.get("/livros?idioma=INGLATERRA")
                 .accept(MediaType.APPLICATION_JSON)

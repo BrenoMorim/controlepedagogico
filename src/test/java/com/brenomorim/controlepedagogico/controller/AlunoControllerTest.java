@@ -41,7 +41,6 @@ public class AlunoControllerTest {
 
     @Test
     @DisplayName("Alunos podem ser cadastrados, somente caso ainda não exista um registro com as mesmas informações pessoais")
-    @WithMockUser
     void cadastrarAluno() throws Exception {
 
         var dadosCadastro = new DadosCadastroAluno("Aluno teste", "11 91234-5678", "aluno@email.com",
@@ -72,7 +71,6 @@ public class AlunoControllerTest {
 
     @Test
     @DisplayName("Status 400 deve ser retornado caso o aluno tenha menos de 3 anos ou os dados estejam em formato inválido")
-    @WithMockUser
     void cadastroComDadosInvalidos() throws Exception {
         var dadosCadastroMenorDe3Anos = new DadosCadastroAluno(
                 "Aluno teste", "11 95678-1234", "aluno@teste.com", "10123456789",
@@ -101,7 +99,6 @@ public class AlunoControllerTest {
 
     @Test
     @DisplayName("Dados do aluno podem ser atualizados, retornando status 200")
-    @WithMockUser
     void dadosDoAlunoPodemSerAtualizados() throws Exception {
         var dados = new DadosCadastroAluno(
                 "Aluno teste", "11 95678-6654", "alunonovo@teste.com", "10113456789",

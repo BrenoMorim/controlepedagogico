@@ -53,7 +53,6 @@ public class AulaControllerTest {
 
     @Test
     @DisplayName("Um aluno pode ter no máximo ter 3 aulas em um único dia")
-    @WithMockUser
     void testarMaximoDeAulasPorDia() throws Exception {
         var data = LocalDateTime.now().withHour(8);
         var aluno = criarAluno("7821");
@@ -85,7 +84,6 @@ public class AulaControllerTest {
 
     @Test
     @DisplayName("Somente alunos com o status ativo podem ter aula")
-    @WithMockUser
     void testarAlunoInativosNaoPodemTerAula() throws Exception {
         var data = LocalDateTime.now().withHour(8);
         var aluno = criarAluno("0910");
@@ -108,7 +106,6 @@ public class AulaControllerTest {
 
     @Test
     @DisplayName("Alunos não podem ter duas aulas ao mesmo tempo")
-    @WithMockUser
     void testarAlunosNaoPodemTer2AulasAoMesmoTempo() throws Exception {
         var data = LocalDateTime.now().withHour(10);
         var aluno = criarAluno("0912");
@@ -134,7 +131,6 @@ public class AulaControllerTest {
 
     @Test
     @DisplayName("A aula deve ser dada por um professor com o mesmo idioma do livro em que o aluno se encontra")
-    @WithMockUser
     void testarProfessoresDevemDarAulaNoIdiomaCorrespondente() throws Exception {
         var data = LocalDateTime.now().withHour(10);
         var aluno = criarAluno("0931");
@@ -154,7 +150,6 @@ public class AulaControllerTest {
 
     @Test
     @DisplayName("Um aluno pode ter somente 6 aulas por semana")
-    @WithMockUser
     void maximo6AulasPorSemanaPorAluno() throws Exception {
         var dataInicial = LocalDateTime.of(2023, 6, 26, 10, 30);
         var aluno = criarAluno("1239");

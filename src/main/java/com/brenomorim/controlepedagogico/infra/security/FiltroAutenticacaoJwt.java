@@ -21,7 +21,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-@Profile(value = {"prod", "default", "authtest"})
+@Profile(value = {"prod", "authtest"})
 public class FiltroAutenticacaoJwt extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserService userService;

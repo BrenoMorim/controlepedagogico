@@ -40,7 +40,6 @@ public class ProfessorControllerTest {
 
     @Test
     @DisplayName("Professor pode ser cadastrado e posteriormente buscado via GET com id ou via busca avançada")
-    @WithMockUser
     void cadastrarProfessor() throws Exception {
 
         var dadosCadastro = new DadosCadastroProfessor(
@@ -81,7 +80,6 @@ public class ProfessorControllerTest {
 
     @Test
     @DisplayName("Status 400 deve ser devolvido caso a busca avançada seja usada sem parâmetros")
-    @WithMockUser
     void buscaAvancadaSemParametros() throws Exception {
         var resposta = mockMvc.perform(MockMvcRequestBuilders.get("/professores/busca")
                 .accept(MediaType.APPLICATION_JSON)
@@ -91,7 +89,6 @@ public class ProfessorControllerTest {
 
     @Test
     @DisplayName("Status 400 é retornado caso atualização de cadastro diminua o cargo do professor, somente promoções são aceitas")
-    @WithMockUser
     void atualizarCadastro() throws Exception {
         var dadosCadastro = new DadosCadastroProfessor(
                 "Novo professor", "10123456789", "novo@email.com", "11 91020-5178", LocalDate.now(),

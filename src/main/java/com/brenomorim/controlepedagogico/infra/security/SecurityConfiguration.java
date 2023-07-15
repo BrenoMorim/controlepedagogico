@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
-@Profile(value = {"prod", "default", "authtest"})
+@Profile(value = {"prod", "authtest"})
 public class SecurityConfiguration {
 
     private final FiltroAutenticacaoJwt filtroAutenticacaoJwt;

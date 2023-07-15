@@ -20,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RequestMapping("/auth")
 @RestController
-@Profile(value = {"prod", "default", "authtest"})
+@Profile(value = {"prod", "authtest"})
 public class AuthController {
 
     @Autowired

@@ -592,8 +592,7 @@ Deleta um usuário pelo seu email.
 
 > Aula Controller
 
-- GET autorizado para todas as roles
-- Caso a role seja aluno, este só pode acessar as aulas referentes a si mesmo
+- GET autorizado para todas as roles, inclusive alunos
 - POST, PUT e DELETE autorizados somente para professores e a coordenação
 
 > Livro Controller

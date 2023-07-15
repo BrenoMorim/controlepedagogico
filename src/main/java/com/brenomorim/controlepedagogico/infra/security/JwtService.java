@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-@Profile(value = {"prod", "default", "authtest"})
+@Profile(value = {"prod", "authtest"})
 public class JwtService {
     @Value("${api.security.token.secret}")
     private String jwtSigningKey;
